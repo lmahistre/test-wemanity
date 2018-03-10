@@ -1,0 +1,23 @@
+{
+  "name": "test-wemanity",
+  "version": "1.0.0",
+  "description": "Test Développeur Wemanity",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "index.js test"
+  },
+  "author": "Lionel Mahistre",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jasmine": "^3.1.0",
+    "jsx-loader": "^0.13.2",
+    "less": "^3.0.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack": "^3.11.0"
+  }
+}

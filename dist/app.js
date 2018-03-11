@@ -940,7 +940,6 @@ module.exports = focusNode;
 /** @jsx React.DOM *//**
  * Intialise l'interface
  */
-
 const React = __webpack_require__(1);
 const ReactDOM = __webpack_require__(18);
 
@@ -18271,12 +18270,16 @@ const React = __webpack_require__(1);
 const Game = __webpack_require__(28);
 const Menu = __webpack_require__(30);
 
-var ____ClassE=React.Component;for(var ____ClassE____Key in ____ClassE){if(____ClassE.hasOwnProperty(____ClassE____Key)){AppPage[____ClassE____Key]=____ClassE[____ClassE____Key];}}var ____SuperProtoOf____ClassE=____ClassE===null?null:____ClassE.prototype;AppPage.prototype=Object.create(____SuperProtoOf____ClassE);AppPage.prototype.constructor=AppPage;AppPage.__superConstructor__=____ClassE;
+/**
+ * Conteneur de la page
+ */
+var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){AppPage[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;AppPage.prototype=Object.create(____SuperProtoOf____Class0);AppPage.prototype.constructor=AppPage;AppPage.__superConstructor__=____Class0;
 
 	function AppPage( ) {"use strict";
 		// Actions qui peuvent être appelée depuis l'interface
 		this.actions = __webpack_require__(31);
 	}
+
 
 	Object.defineProperty(AppPage.prototype,"startGame",{writable:true,configurable:true,value:function( ) {"use strict";
 		this.setState(this.actions.startGame());
@@ -18323,7 +18326,7 @@ const React = __webpack_require__(1);
 
 const Cell = __webpack_require__(29)
 
-var ____ClassF=React.Component;for(var ____ClassF____Key in ____ClassF){if(____ClassF.hasOwnProperty(____ClassF____Key)){Game[____ClassF____Key]=____ClassF[____ClassF____Key];}}var ____SuperProtoOf____ClassF=____ClassF===null?null:____ClassF.prototype;Game.prototype=Object.create(____SuperProtoOf____ClassF);Game.prototype.constructor=Game;Game.__superConstructor__=____ClassF;function Game(){"use strict";if(____ClassF!==null){____ClassF.apply(this,arguments);}}
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Game[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Game.prototype=Object.create(____SuperProtoOf____Class1);Game.prototype.constructor=Game;Game.__superConstructor__=____Class1;function Game(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
 
 	Object.defineProperty(Game.prototype,"render",{writable:true,configurable:true,value:function( ) {"use strict";
 		const self = this;
@@ -18367,7 +18370,7 @@ module.exports = Game;
 /** @jsx React.DOM */
 const React = __webpack_require__(1);
 
-var ____ClassH=React.Component;for(var ____ClassH____Key in ____ClassH){if(____ClassH.hasOwnProperty(____ClassH____Key)){Cell[____ClassH____Key]=____ClassH[____ClassH____Key];}}var ____SuperProtoOf____ClassH=____ClassH===null?null:____ClassH.prototype;Cell.prototype=Object.create(____SuperProtoOf____ClassH);Cell.prototype.constructor=Cell;Cell.__superConstructor__=____ClassH;function Cell(){"use strict";if(____ClassH!==null){____ClassH.apply(this,arguments);}}
+var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____Class3.hasOwnProperty(____Class3____Key)){Cell[____Class3____Key]=____Class3[____Class3____Key];}}var ____SuperProtoOf____Class3=____Class3===null?null:____Class3.prototype;Cell.prototype=Object.create(____SuperProtoOf____Class3);Cell.prototype.constructor=Cell;Cell.__superConstructor__=____Class3;function Cell(){"use strict";if(____Class3!==null){____Class3.apply(this,arguments);}}
 	Object.defineProperty(Cell.prototype,"render",{writable:true,configurable:true,value:function( ) {"use strict";
 		let style = {
 			backgroundColor : null,
@@ -18398,7 +18401,7 @@ module.exports = Cell;
 /** @jsx React.DOM */
 const React = __webpack_require__(1);
 
-var ____ClassG=React.Component;for(var ____ClassG____Key in ____ClassG){if(____ClassG.hasOwnProperty(____ClassG____Key)){Menu[____ClassG____Key]=____ClassG[____ClassG____Key];}}var ____SuperProtoOf____ClassG=____ClassG===null?null:____ClassG.prototype;Menu.prototype=Object.create(____SuperProtoOf____ClassG);Menu.prototype.constructor=Menu;Menu.__superConstructor__=____ClassG;function Menu(){"use strict";if(____ClassG!==null){____ClassG.apply(this,arguments);}}
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){Menu[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;Menu.prototype=Object.create(____SuperProtoOf____Class2);Menu.prototype.constructor=Menu;Menu.__superConstructor__=____Class2;function Menu(){"use strict";if(____Class2!==null){____Class2.apply(this,arguments);}}
 
 	Object.defineProperty(Menu.prototype,"render",{writable:true,configurable:true,value:function( ) {"use strict";
 		return (
@@ -18422,7 +18425,8 @@ module.exports = Menu;
  */
 
 const stateManager = __webpack_require__(32)
-const stateContainer = __webpack_require__(33)
+stateManager.interactions = __webpack_require__(33)
+const stateContainer = __webpack_require__(34)
 
 // Les appels aux fonctions du StateManager se passent toujours de la même façon
 // donc on peut factoriser le code de ces appels
@@ -18672,7 +18676,7 @@ exports.endTurn = function (gameIsStarted, game) {
 	}
 	else {
 		game.currentPlayer = remainingPlayers[0];
-		alert(game.players[remainingPlayers[0]].name + " a gagné")
+		exports.interactions.alert(game.players[remainingPlayers[0]].name + " a gagné")
 		return exports.endGame();
 	}
 	return {gameIsStarted, game};
@@ -18695,7 +18699,7 @@ exports.selectCell = function (gameIsStarted, game, cellId) {
 					max += originCell.armies[i].number;
 				}
 			}
-			let toSend = parseInt(prompt(`Nombre à envoyer (max : ${max}) :`));
+			let toSend = parseInt(exports.interactions.prompt(`Nombre à envoyer (max : ${max}) :`));
 			if (toSend && toSend > 0) {
 				toSend = Math.min(max, toSend);
 				// on crée une armée dans la cellule de destination
@@ -18746,6 +18750,24 @@ exports.endGame = function () {
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports) {
+
+/**
+ * Gère des interactions avec l'utilisateur
+ * L'encapsulation de ces fonctions dans un module permet de bouchonner ces
+ * interactions pour les tests unitaires
+ */
+exports.alert = function (text) {
+	window.alert(text);
+}
+
+
+exports.prompt = function (text) {
+	return window.prompt(text);
+}
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports) {
 
 /**

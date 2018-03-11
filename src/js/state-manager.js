@@ -123,6 +123,7 @@ exports.endTurn = function (gameIsStarted, game) {
 					})
 				}
 			}
+			// Si il y a plusieurs armées c'est qu'elles sont ennemies
 			if (game.cells[cellId].armies.length > 1) {
 				// combat
 				if (game.cells[cellId].armies[0].number > game.cells[cellId].armies[1].number) {
@@ -144,6 +145,7 @@ exports.endTurn = function (gameIsStarted, game) {
 				game.cells[cellId].owner = game.cells[cellId].armies[0].owner;
 			}
 		}
+		// Pour gérer le cas où une cellule est abandonnée
 		else {
 			game.cells[cellId].owner = null;
 		}
@@ -171,7 +173,7 @@ exports.endTurn = function (gameIsStarted, game) {
 	}
 	else {
 		game.currentPlayer = remainingPlayers[0];
-		alert(game.players[remainingPlayers[0]].name + " a gagné")
+		exports.interactions.alert(game.players[remainingPlayers[0]].name + " a gagné")
 		return exports.endGame();
 	}
 	return {gameIsStarted, game};
@@ -194,7 +196,7 @@ exports.selectCell = function (gameIsStarted, game, cellId) {
 					max += originCell.armies[i].number;
 				}
 			}
-			let toSend = parseInt(prompt(`Nombre à envoyer (max : ${max}) :`));
+			let toSend = parseInt(exports.interactions.prompt(`Nombre à envoyer (max : ${max}) :`));
 			if (toSend && toSend > 0) {
 				toSend = Math.min(max, toSend);
 				// on crée une armée dans la cellule de destination

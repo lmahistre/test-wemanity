@@ -5,6 +5,7 @@
  */
 
 const stateManager = require('./state-manager.js')
+stateManager.interactions = require('./interactions.js')
 const stateContainer = require('./state-container.js')
 
 // Les appels aux fonctions du StateManager se passent toujours de la même façon

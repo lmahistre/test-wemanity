@@ -1,0 +1,23 @@
+body {
+  font-family: Helvetica, sans-serif, Arial;
+}
+body table.map {
+  border-collapse: collapse;
+}
+body table.map tr {
+  height: 150px;
+  width: 450px;
+}
+body table.map tr td {
+  font-size: 20px;
+  height: 150px;
+  width: 150px;
+  border-width: 1px;
+  border-color: #888;
+  border-style: solid;
+  font-family: Helvetica, sans-serif, Arial;
+  text-align: center;
+}
+body .army {
+  font-weight: bold;
+}

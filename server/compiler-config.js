@@ -3,7 +3,7 @@ const appDirName = path.resolve(__dirname+'/..');
 
 module.exports = {
 	js : {
-		entry: appDirName+"/src/js/entry.js",
+		entry: appDirName+"/src/js/entry.jsx",
 		output: {
 			path: appDirName +'/dist',
 			filename: "app.js"

@@ -7,7 +7,7 @@ const less = require('less');
  */
 exports.js = function(configJs, callback) {
 	const webpackCompiler = webpack(configJs);
-	console.log('Compiling '+configJs.output.filename);
+	// console.log('Compiling '+configJs.output.filename);
 	try {
 		webpackCompiler.run(function(err, stats) {
 			try {
@@ -16,7 +16,7 @@ exports.js = function(configJs, callback) {
 					console.log(err);
 				}
 				else {
-					console.log('Successfully compiled '+configJs.output.filename);
+					// console.log('Successfully compiled '+configJs.output.filename);
 				}
 				if (callback && typeof callback === 'function') {
 					callback();
@@ -37,7 +37,7 @@ exports.js = function(configJs, callback) {
  * Compiles LESS files into CSS
  */
 exports.css =  function(configCss, callback) {
-	console.log('Compiling '+configCss.outputFilename);
+	// console.log('Compiling '+configCss.outputFilename);
 
 	try {
 		fs.readFile(configCss.inputFolder+'/'+configCss.entry, { 
@@ -65,7 +65,7 @@ exports.css =  function(configCss, callback) {
 						console.log(err.stack);
 					}
 					else {
-						console.log('Successfully compiled '+configCss.outputFilename);
+						// console.log('Successfully compiled '+configCss.outputFilename);
 						if (callback && typeof callback === 'function') {
 							callback();
 						}

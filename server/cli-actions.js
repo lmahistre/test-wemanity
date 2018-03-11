@@ -29,22 +29,10 @@ exports.js = function(args) {
 exports.compile = function(args) {
 	const compiler = require('./compiler.js');
 	const config = require('./compiler-config.js');
-	if (args.length) {
-		if (args[0] === 'js') {
-			compiler.js(config.js);
-		}
-		else if (args[0] === 'css') {
-			compiler.css(config.css);
-		}
-		else {
-			console.log('Invalid argument '+args[0]);
-		}
-	}
-	else {
-		compiler.js(config.js, function() {
-			compiler.css(config.css);
-		});
-	}
+
+	compiler.js(config.js, function() {
+		compiler.css(config.css);
+	});
 }
 
 
@@ -56,9 +44,9 @@ exports.test = function(args) {
 	var jasmine = new Jasmine();
 
 	jasmine.loadConfig({
-		spec_dir: 'src/spec',
+		spec_dir: 'tests',
 		spec_files: [
-			'tests.js',
+			'test.js',
 		],
 		helpers: [
 			// 'helpers/**/*.js'
@@ -66,6 +54,7 @@ exports.test = function(args) {
 	});
 
 	jasmine.onComplete(function(passed) {
+		console.log(' --- ')
 		if(passed) {
 			console.log('Tous les tests passent');
 		}

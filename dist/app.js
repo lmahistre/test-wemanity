@@ -943,11 +943,11 @@ module.exports = focusNode;
 const React = __webpack_require__(1);
 const ReactDOM = __webpack_require__(18);
 
-const App = __webpack_require__(27);
+const AppPage = __webpack_require__(27);
 
 window.onload = function () {
 	ReactDOM.render(
-		React.createElement(App, null), 
+		React.createElement(AppPage, null), 
 		document.getElementById('react-root')
 	);
 }
@@ -18281,8 +18281,9 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 	}
 
 
-	Object.defineProperty(AppPage.prototype,"startGame",{writable:true,configurable:true,value:function( ) {"use strict";
-		this.setState(this.actions.startGame());
+	Object.defineProperty(AppPage.prototype,"startGame",{writable:true,configurable:true,value:function(data) {"use strict";
+		const self = this;
+		this.setState(this.actions.startGame(data));
 	}});
 
 
@@ -18296,10 +18297,10 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 	}});
 
 
-	Object.defineProperty(AppPage.prototype,"selectCell",{writable:true,configurable:true,value:function(cellId) {"use strict";
+	Object.defineProperty(AppPage.prototype,"clickCell",{writable:true,configurable:true,value:function(cellId) {"use strict";
 		const self = this;
 		return function () {
-			self.setState(self.actions.selectCell(cellId));
+			self.setState(self.actions.clickCell(cellId));
 		}
 	}});
 
@@ -18307,7 +18308,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 	Object.defineProperty(AppPage.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
 		const self = this;
 		if (self.state && self.state.gameIsStarted) {
-			return React.createElement(Game, {game: self.state.game, actionNext: self.next.bind(self), actionSelectCell: self.selectCell.bind(self), actionEndGame: self.endGame.bind(self)});
+			return React.createElement(Game, {game: self.state.game, actionNext: self.next.bind(self), actionSelectCell: self.clickCell.bind(self), actionEndGame: self.endGame.bind(self)});
 		}
 		else {
 			return React.createElement(Menu, {startGame: self.startGame.bind(self)});
@@ -18326,12 +18327,18 @@ const React = __webpack_require__(1);
 
 const Cell = __webpack_require__(29)
 
-var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Game[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Game.prototype=Object.create(____SuperProtoOf____Class1);Game.prototype.constructor=Game;Game.__superConstructor__=____Class1;function Game(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
+var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){Game[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;Game.prototype=Object.create(____SuperProtoOf____Class2);Game.prototype.constructor=Game;Game.__superConstructor__=____Class2;function Game(){"use strict";if(____Class2!==null){____Class2.apply(this,arguments);}}
 
 	Object.defineProperty(Game.prototype,"render",{writable:true,configurable:true,value:function( ) {"use strict";
 		const self = this;
-		const rows = [1,2,3];
-		const cols = [1,2,3];
+		const rows = [];
+		const cols = [];
+		for (let i=1; i<=self.props.game.rowNumber; i++) {
+			rows.push(i);
+		}
+		for (let i=1; i<=self.props.game.colNumber; i++) {
+			cols.push(i);
+		}
 		return (
 			React.createElement("div", {className: "game"}, 
 				React.createElement("table", {className: "map"}, 
@@ -18401,12 +18408,32 @@ module.exports = Cell;
 /** @jsx React.DOM */
 const React = __webpack_require__(1);
 
-var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){Menu[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;Menu.prototype=Object.create(____SuperProtoOf____Class2);Menu.prototype.constructor=Menu;Menu.__superConstructor__=____Class2;function Menu(){"use strict";if(____Class2!==null){____Class2.apply(this,arguments);}}
+var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Menu[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Menu.prototype=Object.create(____SuperProtoOf____Class1);Menu.prototype.constructor=Menu;Menu.__superConstructor__=____Class1;function Menu(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
+
+	Object.defineProperty(Menu.prototype,"startGame",{writable:true,configurable:true,value:function( ) {"use strict";
+		this.props.startGame({
+			rowNumber : document.forms['new-game'].rowNumber.value,
+			colNumber : document.forms['new-game'].colNumber.value,
+		});
+	}});
+
 
 	Object.defineProperty(Menu.prototype,"render",{writable:true,configurable:true,value:function( ) {"use strict";
 		return (
 			React.createElement("div", null, 
-				React.createElement("button", {onClick: this.props.startGame}, "Démarrer")
+				React.createElement("form", {name: "new-game"}, 
+					React.createElement("div", {className: "form-row"}, 
+						React.createElement("label", null, "Lignes :"), 
+						React.createElement("input", {type: "number", min: "2", max: "10", step: "1", defaultValue: "3", name: "rowNumber"})
+					), 
+					React.createElement("div", {className: "form-row"}, 
+						React.createElement("label", null, "Colonnes :"), 
+						React.createElement("input", {type: "number", min: "2", max: "10", step: "1", defaultValue: "3", name: "colNumber"})
+					), 
+					React.createElement("div", {className: "form-row"}, 
+						React.createElement("button", {onClick: this.startGame.bind(this)}, "Démarrer")
+					)
+				)
 			)
 		);
 	}});
@@ -18425,14 +18452,15 @@ module.exports = Menu;
  */
 
 const stateManager = __webpack_require__(32)
-stateManager.interactions = __webpack_require__(33)
-const stateContainer = __webpack_require__(34)
+stateManager.setDependencies({
+	interactionService : __webpack_require__(34),
+})
+const stateContainer = __webpack_require__(35)
 
 // Les appels aux fonctions du StateManager se passent toujours de la même façon
 // donc on peut factoriser le code de ces appels
 const generic = function (functionName) {
 	if (typeof stateManager[functionName] === 'function') {
-		// { gameIsStarted, game } = stateContainer.getState();
 		// Webpack ne semble pas gérer l'affectation par décomposition
 		return function (arg) {
 			// Récupère l'état avant opération
@@ -18452,56 +18480,17 @@ const generic = function (functionName) {
 
 // Cette liste contient toutes les fonctions du StateManager qu'on peut appeler 
 // depuis l'interface
-const callableFunctions = ['startGame', 'next', 'endTurn', 'endGame', 'selectCell']
+const callableFunctions = ['startGame', 'next', 'endGame', 'clickCell']
 for (let i = 0; i < callableFunctions.length; i++) {
 	exports[callableFunctions[i]] = function (arg) {
 		return generic(callableFunctions[i])(arg);
 	}
 }
 
-// Ca évite de devoir tout répéter
-
-// // Début d'une nouvelle partie
-// exports.startGame = function () {
-// 	const state = stateContainer.getState();
-// 	stateContainer.setState(stateManager.startGame(state.gameIsStarted, state.game))
-// 	return stateContainer.getState();
-// }
-
-
-// // Fin de tour pour un joueur
-// exports.next = function () {
-// 	const state = stateContainer.getState();
-// 	stateContainer.setState(stateManager.next(state.gameIsStarted, state.game))
-// 	return stateContainer.getState();
-// }
-
-
-// // Fin de tour
-// exports.endTurn = function () {
-// 	const state = stateContainer.getState();
-// 	stateContainer.setState(stateManager.endTurn(state.gameIsStarted, state.game));
-// 	return stateContainer.getState();
-// }
-
-
-// // Fin de partie
-// exports.endGame = function () {
-// 	stateContainer.setState(stateManager.endGame());
-// 	return stateContainer.getState();
-// }
-
-
-// // Clic sur une cellule
-// exports.selectCell = function (cellId) {
-// 	const state = stateContainer.getState();
-// 	stateContainer.setState(stateManager.selectCell(state.gameIsStarted, state.game, cellId));
-// 	return stateContainer.getState();
-// }
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Effectue des actions sur l'état de l'application
@@ -18509,12 +18498,44 @@ for (let i = 0; i < callableFunctions.length; i++) {
  * Il n'y a que des fonctions pures pour les tests unitaires
  */
 
+const gameRulesService = __webpack_require__(33);
+
+var interactionService;
+
+exports.setDependencies = function (dependencies) {
+	if (dependencies.interactionService) {
+		interactionService = dependencies.interactionService;
+		gameRulesService.setDependencies({ interactionService });
+	}
+}
+
+
 /**
  * Début de la partie
  */
-exports.startGame = function (gameIsStarted, game) {
+exports.startGame = function (gameIsStarted, game, data) {
+	const defaultRowNumber = 3;
+	const defaultColNumber = 3;
+	let rowNumber, colNumber;
+	if (data) {
+		if (data.rowNumber) {
+			rowNumber = gameRulesService.validateInt(data.rowNumber);
+			rowNumber = rowNumber > 1 ? rowNumber : defaultRowNumber;
+		}
+		if (data.colNumber) {
+			colNumber = gameRulesService.validateInt(data.colNumber);
+			colNumber = colNumber > 1 ? colNumber : defaultColNumber;
+		}
+	}
+	else {
+		rowNumber = defaultRowNumber;
+		colNumber = defaultColNumber;
+	}
+
 	gameIsStarted = true;
 	game = {
+		rowNumber : rowNumber,
+		colNumber : colNumber,
 		turn : 0,
 		players : {
 			red : {
@@ -18528,66 +18549,9 @@ exports.startGame = function (gameIsStarted, game) {
 		},
 		selectedCell : null,
 		currentPlayer : 'red',
-		cells : {
-			'1-1' : {
-				owner : 'red',
-				neighbors : ['1-2','2-1'],
-				armies : [
-					{
-						owner : 'red',
-						number : 10,
-						origin : '1-1',
-					}
-				],
-			},
-			'1-2' : {
-				owner : null,
-				neighbors : ['1-1','1-3','2-2'],
-				armies : [],
-			},
-			'1-3' : {
-				owner : null,
-				neighbors : ['1-2','2-3'],
-				armies : [],
-			},
-			'2-1' : {
-				owner : null,
-				neighbors : ['1-1','2-2','3-1'],
-				armies : [],
-			},
-			'2-2' : {
-				owner : null,
-				neighbors : ['1-2','2-1','2-3','3-2'],
-				armies : [],
-			},
-			'2-3' : {
-				owner : null,
-				neighbors : ['1-3','2-2','3-3'],
-				armies : [],
-			},
-			'3-1' : {
-				owner : null,
-				neighbors : ['2-1','3-2'],
-				armies : [],
-			},
-			'3-2' : {
-				owner : null,
-				neighbors : ['2-2','3-1','3-3'],
-				armies : [],
-			},
-			'3-3' : {
-				owner : 'blue',
-				neighbors : ['2-3','3-2'],
-				armies : [
-					{
-						owner : 'blue',
-						number : 10,
-						origin : '3-3',
-					}
-				],
-			},
-		},
+		cells : gameRulesService.generateCells(rowNumber, colNumber),
 	}
+	game.cells = gameRulesService.initializePlayers(game.cells);
 	return {gameIsStarted, game}
 }
 
@@ -18596,145 +18560,23 @@ exports.startGame = function (gameIsStarted, game) {
 exports.next = function (gameIsStarted, game) {
 	if (game.currentPlayer === 'red') {
 		game.currentPlayer = 'blue';
-		return {gameIsStarted, game};
 	}
 	else {
-		return exports.endTurn(gameIsStarted, game);
-	}
-}
-
-
-// Fin de tour
-exports.endTurn = function (gameIsStarted, game) {
-	// On vérifie le contenu de chaque cellule
-	for (let cellId in game.cells) {
-		if (game.cells[cellId].armies.length > 0) {
-			let armiesByPlayer = {}
-			// D'abord on regroupe les armées d'un même joueur
-			for (let j=0; j<game.cells[cellId].armies.length; j++) {
-				if (!armiesByPlayer[game.cells[cellId].armies[j].owner]) {
-					armiesByPlayer[game.cells[cellId].armies[j].owner] = 0;
-				}
-				armiesByPlayer[game.cells[cellId].armies[j].owner] += game.cells[cellId].armies[j].number;
-			}
-			// reinitialisation de la cellule pour mettre de l'ordre
-			game.cells[cellId].armies = [];
-			for (let playerId in armiesByPlayer) {
-				if (armiesByPlayer[playerId] > 0) {
-					game.cells[cellId].armies.push({
-						owner : playerId,
-						origin : cellId,
-						number : armiesByPlayer[playerId],
-					})
-				}
-			}
-			if (game.cells[cellId].armies.length > 1) {
-				// combat
-				if (game.cells[cellId].armies[0].number > game.cells[cellId].armies[1].number) {
-					game.cells[cellId].armies[0].number -= game.cells[cellId].armies[1].number;
-					game.cells[cellId].owner = game.cells[cellId].armies[0].owner;
-					game.cells[cellId].armies.splice(1,1);
-				}
-				else if (game.cells[cellId].armies[0].number < game.cells[cellId].armies[1].number) {
-					game.cells[cellId].armies[1].number -= game.cells[cellId].armies[0].number;
-					game.cells[cellId].owner = game.cells[cellId].armies[1].owner;
-					game.cells[cellId].armies.splice(0,1);
-				}
-				// Cas d'égalité
-				else {
-					game.cells[cellId].armies = []
-				}
-			}
-			else if (game.cells[cellId].armies.length > 0) {
-				game.cells[cellId].owner = game.cells[cellId].armies[0].owner;
-			}
-		}
-		else {
-			game.cells[cellId].owner = null;
-		}
-	}
-
-	// Après les réorganisations et les combats, on donne des nouveaux soldats
-	// et on vérifie si il reste les 2 joueurs
-	let remainingPlayers = [];
-	for (let cellId in game.cells) {
-		if (game.cells[cellId].owner && game.cells[cellId].armies.length > 0) {
-			game.cells[cellId].armies[0].number++;
-			// Pour compter les joueurs restants
-			if (remainingPlayers.indexOf(game.cells[cellId].owner) == -1) {
-				remainingPlayers.push(game.cells[cellId].owner);
-			}
-		}
-		else {
-			game.cells[cellId].owner = null;
-		}
-	}
-
-	game.turn++;
-	if (remainingPlayers.length > 1) {
-		game.currentPlayer = 'red';
-	}
-	else {
-		game.currentPlayer = remainingPlayers[0];
-		exports.interactions.alert(game.players[remainingPlayers[0]].name + " a gagné")
-		return exports.endGame();
+		game = gameRulesService.endTurn(game);
 	}
 	return {gameIsStarted, game};
 }
 
 
 // Clic sur une cellule
-exports.selectCell = function (gameIsStarted, game, cellId) {
+exports.clickCell = function (gameIsStarted, game, cellId) {
 	// Si il y a déjà une cellule sélectionnée, on doit choisir une cellule de destination
 	if (game.selectedCell) {
-		let originCell = game.cells[game.selectedCell];
-		let destinationCell = game.cells[cellId];
-		if (game.selectedCell == cellId) {
-			game.selectedCell = null;
-		}
-		else if (originCell.neighbors.indexOf(cellId) > -1) {
-			let max = 0;
-			for (let i=0; i<originCell.armies.length; i++) {
-				if (originCell.owner === originCell.armies[i].owner && originCell.armies[i].origin === game.selectedCell) {
-					max += originCell.armies[i].number;
-				}
-			}
-			let toSend = parseInt(exports.interactions.prompt(`Nombre à envoyer (max : ${max}) :`));
-			if (toSend && toSend > 0) {
-				toSend = Math.min(max, toSend);
-				// on crée une armée dans la cellule de destination
-				destinationCell.armies.push({
-					origin : game.selectedCell,
-					number : toSend,
-					owner : originCell.owner,
-				});
-				// on enlève les soldats dans la cellule d'origine
-				for (var i = 0; i < originCell.armies.length; i++) {
-
-					if (originCell.owner === originCell.armies[i].owner && originCell.armies[i].origin === game.selectedCell) {
-						if (toSend > originCell.armies[i].number) {
-							toSend -= originCell.armies[i].number;
-							originCell.armies[i] = 0;
-						}
-						else {
-							originCell.armies[i].number -= toSend;
-							toSend = 0;
-						}
-					}
-				}
-			}
-			game.selectedCell = null;
-		}
+		game = gameRulesService.moveToCell(game, cellId);
 	}
 	// Si il n'y a pas de cellule sélectionnée, on en sélectionne une si on le peut
 	else {
-		// Un joueur ne peut sélectionner que ses propres cellules
-		if (game.cells[cellId].owner === game.currentPlayer) {
-			game.selectedCell = cellId;
-		}
-		else {
-			game.selectedCell = null;
-		}
+		game = gameRulesService.selectCell(game, cellId);
 	}
 	return {gameIsStarted, game};
 }
@@ -18752,6 +18594,274 @@ exports.endGame = function () {
 /* 33 */
 /***/ (function(module, exports) {
 
+
+var interactionService;
+
+exports.setDependencies = function (dependencies) {
+	if (dependencies.interactionService) {
+		interactionService = dependencies.interactionService;
+	}
+}
+
+
+exports.generateCells = function (rowNumber, colNumber) {
+	let cells = {};
+	for (r=1; r<=rowNumber; r++) {
+		for (c=1; c<=colNumber; c++) {
+			let cell = {
+				owner : null,
+				neighbors : [],
+				armies : [],
+			}
+			if (r>1) {
+				cell.neighbors.push((r-1)+'-'+c);
+			}
+			if (c>1) {
+				cell.neighbors.push((r)+'-'+(c-1));
+			}
+			if (c<colNumber) {
+				cell.neighbors.push((r)+'-'+(c+1));
+			}
+			if (r<rowNumber) {
+				cell.neighbors.push((r+1)+'-'+c);
+			}
+
+			cells[r+'-'+c] = cell;
+		}
+	}
+	return cells;
+}
+
+
+exports.countValues = function (obj) {
+	let c = 0;
+	for (let elt in obj) {
+		c++;
+	}
+	return c;
+}
+
+
+exports.initializePlayers = function (cells) {
+	let c = 0;
+	let size = exports.countValues(cells);
+	for (let cellId in cells) {
+		c++;
+		if (c === 1) {
+			cells[cellId].owner = 'red';
+			cells[cellId].armies.push({
+				owner : cells[cellId].owner,
+				number : 10,
+				origin : cellId,
+			})
+		}
+		if (c === size) {
+			cells[cellId].owner = 'blue';
+			cells[cellId].armies.push({
+				owner : cells[cellId].owner,
+				number : 10,
+				origin : cellId,
+			})
+		}
+	}
+	return cells;
+}
+
+
+exports.selectCell = function (game, cellId) {
+	// Un joueur ne peut sélectionner que ses propres cellules
+	if (game.cells[cellId].owner === game.currentPlayer) {
+		game.selectedCell = cellId;
+	}
+	else {
+		game.selectedCell = null;
+	}
+	return game;
+}
+
+
+exports.moveToCell = function (inputGame, cellId) {
+	let game = JSON.parse(JSON.stringify(inputGame));
+	let originCell = game.cells[game.selectedCell];
+	let destinationCell = game.cells[cellId];
+	if (game.selectedCell == cellId) {
+		game.selectedCell = null;
+	}
+	else if (originCell.neighbors.indexOf(cellId) > -1) {
+		let max = 0;
+		for (let i=0; i<originCell.armies.length; i++) {
+			if (originCell.owner === originCell.armies[i].owner && originCell.armies[i].origin === game.selectedCell) {
+				max += originCell.armies[i].number;
+			}
+		}
+		let toSend = parseInt(interactionService.prompt(`Nombre à envoyer (max : ${max}) :`));
+		if (toSend && toSend > 0) {
+			toSend = Math.min(max, toSend);
+			// on crée une armée dans la cellule de destination
+			destinationCell.armies.push({
+				origin : game.selectedCell,
+				number : toSend,
+				owner : originCell.owner,
+			});
+			// on enlève les soldats dans la cellule d'origine
+			for (var i = 0; i < originCell.armies.length; i++) {
+
+				if (originCell.owner === originCell.armies[i].owner && originCell.armies[i].origin === game.selectedCell) {
+					if (toSend > originCell.armies[i].number) {
+						toSend -= originCell.armies[i].number;
+						originCell.armies[i] = 0;
+					}
+					else {
+						originCell.armies[i].number -= toSend;
+						toSend = 0;
+					}
+				}
+			}
+		}
+		game.selectedCell = null;
+	}
+	return game;
+}
+
+
+exports.validateInt = function (integer) {
+	if (integer) {
+		let i = parseInt(integer);
+		if (isNaN(i)) {
+			i = 0;
+		}
+		return i;
+	}
+	else {
+		return 0;
+	}
+}
+
+
+// Distribue des nouveaux soldats
+exports.addNewSoldiers = function (inputCells) {
+	let cells = JSON.parse(JSON.stringify(inputCells));
+	for (let cellId in cells) {
+		if (cells[cellId].owner && cells[cellId].armies.length > 0) {
+			cells[cellId].armies[0].number++;
+		}
+		else {
+			cells[cellId].owner = null;
+		}
+	}
+	return cells;
+}
+
+
+exports.checkRemainingPlayers = function (inputCells) {
+	let cells = JSON.parse(JSON.stringify(inputCells));
+	let remainingPlayers = [];
+	for (let cellId in cells) {
+		if (cells[cellId].owner && cells[cellId].armies.length > 0) {
+			// Pour compter les joueurs restants
+			if (remainingPlayers.indexOf(cells[cellId].owner) == -1) {
+				remainingPlayers.push(cells[cellId].owner);
+			}
+		}
+	}
+	return remainingPlayers;
+}
+
+
+exports.reorganizeAndFight = function (cells) {
+	// On vérifie le contenu de chaque cellule
+	for (let cellId in cells) {
+		if (cells[cellId].armies.length > 0) {
+			cells[cellId].armies = exports.reorganize(cells[cellId].armies, cellId);
+
+			// Si il y a plusieurs armées c'est qu'elles sont ennemies
+			if (cells[cellId].armies.length > 1) {
+				// combat
+				cells[cellId] = exports.fight(cells[cellId]);
+			}
+			else if (cells[cellId].armies.length > 0) {
+				cells[cellId].owner = cells[cellId].armies[0].owner;
+			}
+		}
+		// Pour gérer le cas où une cellule est abandonnée
+		else {
+			cells[cellId].owner = null;
+		}
+	}
+	return cells;
+}
+
+
+exports.reorganize = function (inputArmies, cellId) {
+	let armiesByPlayer = {}
+	// D'abord on regroupe les armées d'un même joueur
+	for (let j=0; j<inputArmies.length; j++) {
+		if (!armiesByPlayer[inputArmies[j].owner]) {
+			armiesByPlayer[inputArmies[j].owner] = 0;
+		}
+		armiesByPlayer[inputArmies[j].owner] += inputArmies[j].number;
+	}
+	// reinitialisation de la cellule pour mettre de l'ordre
+	let armies = [];
+	for (let playerId in armiesByPlayer) {
+		if (armiesByPlayer[playerId] > 0) {
+			armies.push({
+				owner : playerId,
+				origin : cellId,
+				number : armiesByPlayer[playerId],
+			})
+		}
+	}
+	return armies;
+}
+
+
+exports.fight = function (inputCell) {
+	let cell = JSON.parse(JSON.stringify(inputCell));
+	if (cell.armies[0].number > cell.armies[1].number) {
+		cell.armies[0].number -= cell.armies[1].number;
+		cell.owner = cell.armies[0].owner;
+		cell.armies.splice(1,1);
+	}
+	else if (cell.armies[0].number < cell.armies[1].number) {
+		cell.armies[1].number -= cell.armies[0].number;
+		cell.owner = cell.armies[1].owner;
+		cell.armies.splice(0,1);
+	}
+	// Cas d'égalité
+	else {
+		cell.armies = []
+	}
+	return cell;
+}
+
+
+// Fin de tour
+exports.endTurn = function (inputGame) {
+	let game = JSON.parse(JSON.stringify(inputGame));
+	game.cells = exports.reorganizeAndFight(game.cells);
+
+	// Après les réorganisations et les combats, on donne des nouveaux soldats
+	game.cells = exports.addNewSoldiers(game.cells);
+	// et on vérifie si il reste les 2 joueurs
+	const remainingPlayers = exports.checkRemainingPlayers(game.cells);
+
+	game.turn++;
+	if (remainingPlayers.length > 1) {
+		game.currentPlayer = 'red';
+	}
+	else {
+		game.currentPlayer = remainingPlayers[0];
+		interactionService.alert(game.players[remainingPlayers[0]].name + " a gagné")
+		return exports.endGame();
+	}
+	return game;
+}
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
 /**
  * Gère des interactions avec l'utilisateur
  * L'encapsulation de ces fonctions dans un module permet de bouchonner ces
@@ -18767,7 +18877,7 @@ exports.prompt = function (text) {
 }
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /**

@@ -7,13 +7,16 @@ const less = require('less');
  */
 exports.js = function(configJs, callback) {
 	const webpackCompiler = webpack(configJs);
-	// console.log('Compiling '+configJs.output.filename);
 	try {
 		webpackCompiler.run(function(err, stats) {
 			try {
 				if (err) {
 					console.log('Compilation failed : '+configJs.output.filename);
 					console.log(err);
+				}
+				else if (stats.compilation.errors && stats.compilation.errors.length) {
+					console.log('Compilation errors :');
+					console.log(stats.compilation.errors);
 				}
 				else {
 					// console.log('Successfully compiled '+configJs.output.filename);

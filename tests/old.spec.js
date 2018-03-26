@@ -1,8 +1,9 @@
 
-describe ('state-manager', function() {
-	const stateManager = require('../src/js/state-manager.js');
-	stateManager.interactions = require('./interactions.mock.js');
+const interactionService = require('./interactions.mock.js');
 
+describe ('game sequences', function() {
+	const stateManager = require('../src/js/services/state-manager.js');
+	stateManager.setDependencies({ interactionService });
 	it ("tests startGame then next", function() {
 		let state = stateManager.startGame();
 		expect(state.gameIsStarted).toBe(true);
@@ -49,7 +50,7 @@ describe ('state-manager', function() {
 		expect(state.game.cells['1-1'].armies[0].number).toBe(10);
 
 		// Sélection d'une case de départ
-		state = stateManager.selectCell(state.gameIsStarted, state.game, '1-1');
+		state = stateManager.clickCell(state.gameIsStarted, state.game, '1-1');
 		expect(state.gameIsStarted).toBe(true);
 		expect(state.game.turn).toBe(0);
 		expect(state.game.selectedCell).toBe('1-1');
@@ -58,8 +59,8 @@ describe ('state-manager', function() {
 
 		// Sélection d'une case d'arrivée
 		// on y déplace 3 soldats :
-		stateManager.interactions.setUserInput(3);
-		state = stateManager.selectCell(state.gameIsStarted, state.game, '1-2');
+		interactionService.setUserInput(3);
+		state = stateManager.clickCell(state.gameIsStarted, state.game, '1-2');
 		expect(state.gameIsStarted).toBe(true);
 		expect(state.game.turn).toBe(0);
 		expect(state.game.selectedCell).toBe(null);
@@ -94,7 +95,7 @@ describe ('state-manager', function() {
 		expect(state.game.cells['1-1'].armies[0].number).toBe(10);
 
 		// Sélection d'une case de départ
-		state = stateManager.selectCell(state.gameIsStarted, state.game, '1-1');
+		state = stateManager.clickCell(state.gameIsStarted, state.game, '1-1');
 		expect(state.gameIsStarted).toBe(true);
 		expect(state.game.turn).toBe(0);
 		expect(state.game.selectedCell).toBe('1-1');
@@ -103,8 +104,8 @@ describe ('state-manager', function() {
 
 		// Sélection d'une case d'arrivée
 		// on y déplace 10 soldats :
-		stateManager.interactions.setUserInput(10);
-		state = stateManager.selectCell(state.gameIsStarted, state.game, '1-2');
+		interactionService.setUserInput(10);
+		state = stateManager.clickCell(state.gameIsStarted, state.game, '1-2');
 		expect(state.gameIsStarted).toBe(true);
 		expect(state.game.turn).toBe(0);
 		expect(state.game.selectedCell).toBe(null);

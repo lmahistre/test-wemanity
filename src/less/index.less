@@ -1,15 +1,16 @@
+@cellSize : 100px;
+
 body {
 	font-family: Helvetica, sans-serif, Arial;
 
 	table.map {
 		border-collapse: collapse;
 		tr {
-			height: 150px;
-			width: 450px;
+			height: @cellSize;
 			td {
 				font-size: 20px;
-				height: 150px;
-				width: 150px;
+				height: @cellSize;
+				width: @cellSize;
 				border-width: 1px;
 				border-color: #888;
 				border-style: solid;
@@ -21,5 +22,19 @@ body {
 
 	.army {
 		font-weight: bold;
+	}
+
+	form {
+		.form-row {
+			margin: 4px 4px;
+			label {
+				width: 150px;
+				display: inline-block;
+			}
+			input {
+				display: inline-block;
+				width: 60px;
+			}
+		}
 	}
 }

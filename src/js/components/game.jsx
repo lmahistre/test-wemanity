@@ -7,8 +7,14 @@ class Game extends React.Component {
 
 	render () {
 		const self = this;
-		const rows = [1,2,3];
-		const cols = [1,2,3];
+		const rows = [];
+		const cols = [];
+		for (let i=1; i<=self.props.game.rowNumber; i++) {
+			rows.push(i);
+		}
+		for (let i=1; i<=self.props.game.colNumber; i++) {
+			cols.push(i);
+		}
 		return (
 			<div className="game">
 				<table className="map">

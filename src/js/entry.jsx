@@ -4,11 +4,11 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 
-const App = require("./app.jsx");
+const AppPage = require("./components/app-page.jsx");
 
 window.onload = function () {
 	ReactDOM.render(
-		<App />, 
+		<AppPage />, 
 		document.getElementById('react-root')
 	);
 }

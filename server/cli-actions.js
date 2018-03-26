@@ -37,6 +37,21 @@ exports.compile = function(args) {
 
 
 /**
+ * Compilation JS et CSS
+ */
+exports.build = function(args) {
+	const compiler = require('./compiler.js');
+	const config = require('./compiler-config.js');
+
+	compiler.js(config.js, function() {
+		compiler.css(config.css, function() {
+			exports.test();
+		});
+	});
+}
+
+
+/**
  * Tests unitaires
  */
 exports.test = function(args) {
@@ -46,7 +61,9 @@ exports.test = function(args) {
 	jasmine.loadConfig({
 		spec_dir: 'tests',
 		spec_files: [
-			'test.js',
+			'game-rules.spec.js',
+			'old.spec.js',
+			'state-manager.spec.js',
 		],
 		helpers: [
 			// 'helpers/**/*.js'

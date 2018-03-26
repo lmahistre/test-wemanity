@@ -23,7 +23,7 @@ La partie se termine lorsque l'un des deux joueurs n'a plus d'armée.
 
 Page de démarrage :
 
-![Page de démarrage](screenshots/start.png)
+![Page de démarrage](screenshots/start-1.1.png)
 
 Aperçu du jeu :
 
@@ -38,6 +38,8 @@ Victoire :
 Il y a deux façon de lancer le jeu :
 * Soit en ouvrant le fichier `index.html` dans un navigateur
 * Soit en démarrant le serveur : `$ nodejs index.js server`, puis en se connectant sur [http://localhost:3003](http://localhost:3003)
+
+Le jeu est aussi déployé [ici](https://lmahistre.github.io/test-wemanity).
 
 ## Développement
 
@@ -77,6 +79,10 @@ Pour recompiler les fichiers Less en CSS :
 Pour lancer les tests unitaires :
 
 `$ nodejs ./index.js test`
+
+Pour recompiler JS, CSS et lancer les tests unitaires :
+
+`$ nodejs ./index.js build`
 
 Pour démarrer le serveur web (écoute sur le port 3003) :
 

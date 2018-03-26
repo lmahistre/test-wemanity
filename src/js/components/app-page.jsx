@@ -1,8 +1,8 @@
 
 const React = require("react");
 
-const Game = require('./components/game.jsx');
-const Menu = require('./components/menu.jsx');
+const Game = require('./game.jsx');
+const Menu = require('./menu.jsx');
 
 /**
  * Conteneur de la page
@@ -11,12 +11,13 @@ class AppPage extends React.Component {
 
 	constructor () {
 		// Actions qui peuvent être appelée depuis l'interface
-		this.actions = require('./actions.js');
+		this.actions = require('../services/actions.js');
 	}
 
 
-	startGame () {
-		this.setState(this.actions.startGame());
+	startGame (data) {
+		const self = this;
+		this.setState(this.actions.startGame(data));
 	}
 
 
@@ -30,10 +31,10 @@ class AppPage extends React.Component {
 	}
 
 
-	selectCell (cellId) {
+	clickCell (cellId) {
 		const self = this;
 		return function () {
-			self.setState(self.actions.selectCell(cellId));
+			self.setState(self.actions.clickCell(cellId));
 		}
 	}
 
@@ -41,7 +42,7 @@ class AppPage extends React.Component {
 	render() {
 		const self = this;
 		if (self.state && self.state.gameIsStarted) {
-			return <Game game={self.state.game} actionNext={self.next.bind(self)} actionSelectCell={self.selectCell.bind(self)} actionEndGame={self.endGame.bind(self)} />;
+			return <Game game={self.state.game} actionNext={self.next.bind(self)} actionSelectCell={self.clickCell.bind(self)} actionEndGame={self.endGame.bind(self)} />;
 		}
 		else {
 			return <Menu startGame={self.startGame.bind(self)} />;
